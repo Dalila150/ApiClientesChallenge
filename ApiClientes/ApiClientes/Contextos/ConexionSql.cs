@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ApiClientes.Entidades;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApiClientes.Contextos
 {
@@ -9,6 +10,8 @@ namespace ApiClientes.Contextos
         {
             //dejar al final
         }
+
+        public DbSet<Cliente> dbClientes { get; set; }
 
     }
 }

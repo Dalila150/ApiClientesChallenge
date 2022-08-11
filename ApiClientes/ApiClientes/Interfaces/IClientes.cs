@@ -12,7 +12,7 @@ namespace ApiClientes.Interfaces
 
         Task<Cliente> obtenerClienteXId(int ID);
 
-        Task<Cliente> obtenerClientesXNombre(string nombre); //caracteres centrales
+        Task<IEnumerable<Cliente>> obtenerClientesXNombre(string nombre); //caracteres centrales
 
         Task<int> insertarNuevoCliente(Cliente datos);
 

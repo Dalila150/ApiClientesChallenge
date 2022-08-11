@@ -1,35 +1,68 @@
-﻿using ApiClientes.Entidades;
+﻿using ApiClientes.Contextos;
+using ApiClientes.Entidades;
 using ApiClientes.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ApiClientes.Repositorio
 {
     public class ClientesRepo : IClientes
     {
-        public Task<int> insertarNuevoCliente(Cliente datos)
+
+        private readonly ConexionSql _conexion;
+        
+        public ClientesRepo(ConexionSql conexion)
         {
-            throw new System.NotImplementedException();
+            _conexion = conexion;
         }
 
-        public Task<int> modificarCliente(Cliente datos)
+        public async Task<int> insertarNuevoCliente(Cliente datos)
         {
-            throw new System.NotImplementedException();
+           _conexion.dbClientes.Add(datos);
+            var state = await _conexion.SaveChangesAsync();
+            return state;
         }
 
-        public Task<Cliente> obtenerClientesXNombre(string nombre)
+        public async Task<int> modificarCliente(Cliente datos)
         {
-            throw new System.NotImplementedException();
+            var busqueda = new Cliente();
+
+            busqueda = await _conexion.dbClientes.Where(i => i.ID == datos.ID).FirstOrDefaultAsync();
+
+            busqueda.Nombre = datos.Nombre;
+            busqueda.Apellido = datos.Apellido;
+            busqueda.FechaNac = datos.FechaNac;
+            busqueda.Cuit = datos.Cuit;
+            busqueda.Domicilio = datos.Domicilio;
+            busqueda.Email = datos.Email;
+            busqueda.Telefono = datos.Telefono;
+            
+            _conexion.dbClientes.Update(busqueda);
+            var state = await _conexion.SaveChangesAsync();
+
+            return state;
+
         }
 
-        public Task<Cliente> obtenerClienteXId(int ID)
+        public async Task<IEnumerable<Cliente>> obtenerClientesXNombre(string nombre)
         {
-            throw new System.NotImplementedException();
+            //return await _conexion.dbClientes.Where(i => i.Nombre.Contains(nombre)).ToListAsync();
+            throw new System.NotImplementedException(); ;
         }
 
-        public Task<IEnumerable<Cliente>> obtenerTodosLosClientes()
+        public async Task<Cliente> obtenerClienteXId(int ID)
         {
-            throw new System.NotImplementedException();
+            //var busqueda = new Cliente();
+            //busqueda = await _conexion.dbClientes.Where(i => i.ID == ID).FirstOrDefaultAsync();
+
+            return await _conexion.dbClientes.Where(i => i.ID == ID).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Cliente>> obtenerTodosLosClientes()
+        {
+            return await _conexion.dbClientes.ToListAsync();
         }
     }
 }

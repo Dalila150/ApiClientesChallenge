@@ -1,7 +1,9 @@
 ﻿using ApiClientes.Entidades;
+using ApiClientes.Helpers;
 using ApiClientes.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,8 +32,8 @@ namespace ApiClientes.Controllers
 
         }
 
-        [HttpGet("obtenerClienteXId")]
-        public async Task<IActionResult> obtenerClienteXId(int Id)
+        [HttpGet("obtenerClienteXId/{Id}")]
+        public async Task<IActionResult> obtenerClienteXId([FromRoute]int Id)
         {
             var lista = await _clientes.obtenerClienteXId(Id);
             if (lista != null)
@@ -41,8 +43,8 @@ namespace ApiClientes.Controllers
 
         }
 
-        [HttpGet("obtenerClientesXNombre")]
-        public async Task<IActionResult> obtenerClientesXNombre(string nombre)
+        [HttpGet("obtenerClientesXNombre/{nombre}")]
+        public async Task<IActionResult> obtenerClientesXNombre([FromRoute]string nombre)
         {
             var lista = await _clientes.obtenerClientesXNombre(nombre);
             if (lista.Count() > 0)
@@ -53,60 +55,69 @@ namespace ApiClientes.Controllers
         }
 
 
-        [HttpGet("insertarNuevoCliente")]
-        public async Task<IActionResult> InsertarNuevoCliente([FromBody]Cliente cliente)
+        [HttpPost("insertarNuevoCliente")]
+        public async Task<IActionResult> insertarNuevoCliente([FromBody]Cliente cliente)
         {
+            if (!ModelState.IsValid)
+            {
+                Log.agregarLog("El modelo insertado no es valido", @"D:\Repo\ApiClientesChallenge\ApiClientes\");
+                return BadRequest(ModelState);
+                
+            }
+
+                try
+                {
+                    var state = await _clientes.insertarNuevoCliente(cliente);
+                    switch (state)
+                    {   
+                        case -1:
+                            return BadRequest("Cuit invalido");
+                            break;
+                        default:
+                            break;
+                    }
+                    return Ok(state); //
+                }
+                catch (Exception)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+                    //Insertar log?
+                    throw;
+                }
+               
+        }
+
+        
+        [HttpPost("modificarCliente")]
+        public async Task<IActionResult> modificarCliente([FromBody]Cliente cliente)
+        {
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
                 //Insertar log?
             }
 
-            if(cliente.ID >= 0)     //Si el ID ya existe, actualiza
+            try
             {
-                try
-                {
-                    var state = await _clientes.insertarNuevoCliente(cliente);
-                    return Ok(state);
-                }
-                catch (System.Exception)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError);
-                    //Insertar log?
-                    throw;
-                }
-                
-            }
-            else                    //El cliente es NUEVO
-            {
-                try
-                {
-                    var state = await _clientes.modificarCliente(cliente);
-                    return Ok(state);
-                }
-                catch (System.Exception)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError);
-                    //Insertar log?
-                    //throw;
-                }
-
-            }
-            
-        }
-
-        /*
-        [HttpGet("modificarCliente")]
-        public async Task<IActionResult> modificarCliente([FromBody]Cliente cliente)
-        {
-            var state = await _clientes.modificarCliente(cliente);
-            if (state > 0)
+                var state = await _clientes.modificarCliente(cliente);
                 return Ok(state);
-            else
+
+            }
+            catch (Exception)
+            {
                 return StatusCode(StatusCodes.Status204NoContent);
+                //log
+                throw;
+            }
 
         }
-        */
+        
+
+        
+
+        //en el pasado el put dejaba el sistema vulnerable.
+        //hacer post y patch (standar, pero no se usa.)
 
     }
 }

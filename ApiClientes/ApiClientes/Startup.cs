@@ -1,6 +1,10 @@
+using ApiClientes.Contextos;
+using ApiClientes.Interfaces;
+using ApiClientes.Repositorio;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,6 +31,8 @@ namespace ApiClientes
         {
 
             services.AddControllers();
+            services.AddDbContext<ConexionSql>(opciones => opciones.UseSqlServer(Configuration.GetConnectionString("Challenge")));
+            services.AddScoped<IClientes, ClientesRepo>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiClientes", Version = "v1" });

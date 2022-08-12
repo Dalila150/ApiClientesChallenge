@@ -1,10 +1,13 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiClientes.Entidades
 {
+    [Table("Clientes")]
     public class Cliente
     {
-
+        [Key]
         public int ID { get; set; }
 
         public string Nombre { get; set; }

@@ -46,6 +46,9 @@ namespace ApiClientes
                     "Para el parametro de insertarCliente, modificarCliente y modificarClientePatch, el formato de la fecha debe ser tipo ISO: " +
                     "2011-11-11T11:11:11.111Z  " +
                     "//================================================================================================================================================================// " +
+                    "En la carpeta Extras, se encuentra un archivo tipo Json para importar la colección en PostMan, y un Query para creación de la BD  " +
+                    "//================================================================================================================================================================// " +
+                    "//================================================================================================================================================================// " +
                     "A continuación se encuentra el link que dirige al repositorio de GitHub",
                     Contact = new OpenApiContact
                     {

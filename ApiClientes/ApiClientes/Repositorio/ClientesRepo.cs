@@ -48,11 +48,13 @@ namespace ApiClientes.Repositorio
             }
             //datos.FechaNac = Validaciones.formatearFecha(datos.FechaNac);
 
+            datos.ID = 0;
+
             _conexion.dbClientes.Add(datos);
 
             try
             {
-                var temporal = await _conexion.SaveChangesAsync();
+                var temporal = await _conexion.SaveChangesAsync(); //retorna int
                 return temporal;
             }
             catch (Exception error)
@@ -71,6 +73,11 @@ namespace ApiClientes.Repositorio
             var busqueda = new Cliente();
 
             busqueda = await _conexion.dbClientes.Where(i => i.ID == datos.ID).FirstOrDefaultAsync();
+
+            if (busqueda == null)
+            {
+                return -1;
+            }
 
             if (!Validaciones.validarCuit(datos.Cuit))
             {
@@ -92,6 +99,10 @@ namespace ApiClientes.Repositorio
             {
                 return -6;
             }
+            if (!Validaciones.validarId(datos.ID))
+            {
+                return -7;
+            }
 
             busqueda.Nombre = datos.Nombre;
             busqueda.Apellido = datos.Apellido;
@@ -105,13 +116,12 @@ namespace ApiClientes.Repositorio
 
             try
             {
-                var temporal = await _conexion.SaveChangesAsync();
+                var temporal = await _conexion.SaveChangesAsync(); //retorna int
                 return temporal;
             }
             catch (Exception error)
             {
-
-                //log
+                Log.agregarLog(error.Message, @"D:\Repo\ApiClientesChallenge\ApiClientes\");
                 throw;
             }
            
@@ -124,12 +134,12 @@ namespace ApiClientes.Repositorio
             //validar nombre primero
             List<Cliente> listaClientes = new List<Cliente>();
             
-            if (string.IsNullOrEmpty(nombre))
+            if (string.IsNullOrEmpty(nombre)) //si el nombre viene vacio o null.
             {
                 Cliente clienteError = new Cliente();
 
                 clienteError.Nombre = "parametro invalido";
-                Log.agregarLog("Se ingresó un nombre invalido como criterio de busqueda.", @"D:\Repo\ApiClientesChallenge\ApiClientes\");
+                Log.agregarLog("Se ingresó un nombre invalido como criterio de busqueda.", @"D:\Repo\ApiClientesChallenge\ApiClientes\"); //Log por parametros mal ingresados.
                 listaClientes.Add(clienteError);
                 return listaClientes;
             }
@@ -140,8 +150,7 @@ namespace ApiClientes.Repositorio
             }
             catch (Exception error)
             {
-                Console.WriteLine(error.Message);
-                //Log(error.Message)
+                Log.agregarLog(error.Message, @"D:\Repo\ApiClientesChallenge\ApiClientes\");
                 throw;
             }
 
@@ -149,7 +158,17 @@ namespace ApiClientes.Repositorio
 
         public async Task<Cliente> obtenerClienteXId(int ID)
         {
-            
+
+            if (!Validaciones.validarId(ID))
+            {
+                Cliente clienteError = new Cliente();
+
+                clienteError.Nombre = "parametro invalido";
+                Log.agregarLog("Se ingresó un Id invalido como criterio de busqueda.", @"D:\Repo\ApiClientesChallenge\ApiClientes\"); //Log por parametros mal ingresados.
+                
+                return clienteError;
+            } 
+
             try
             {
                 var temporal = await _conexion.dbClientes.Where(i => i.ID == ID).FirstOrDefaultAsync();
@@ -157,17 +176,16 @@ namespace ApiClientes.Repositorio
             }
             catch (Exception error)
             {
-                Console.WriteLine(error.Message);
-                //Log(error.Message)
+                Log.agregarLog(error.Message, @"D:\Repo\ApiClientesChallenge\ApiClientes\");
                 throw;
             }
 
             
         }
 
-        public async Task<string[]> obtenerLogs()
+        public async Task<string[]> obtenerLogs(string nombre)
         {
-            var text = System.IO.File.ReadAllLines(@"D:\Repo\ApiClientesChallenge\ApiClientes\log_11_8_2022.txt");
+            var text = System.IO.File.ReadAllLines($"D:\\Repo\\ApiClientesChallenge\\ApiClientes\\log_{nombre}.txt");
             return text;
 
         }
@@ -177,7 +195,6 @@ namespace ApiClientes.Repositorio
             try
             {
                 var temporal = await _conexion.dbClientes.ToListAsync();
-                Log.agregarLog("El Log anda :)", @"D:\Repo\ApiClientesChallenge\ApiClientes\");
                 return temporal;
             }
             catch (Exception error)

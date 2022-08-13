@@ -18,7 +18,7 @@ namespace ApiClientes.Interfaces
 
         Task<int> modificarCliente(Cliente datos);
 
-        Task<string[]> obtenerLogs();
+        Task<string[]> obtenerLogs(string nombre);
 
     }
 }

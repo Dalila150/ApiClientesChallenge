@@ -17,10 +17,10 @@ namespace ApiClientes.Controllers
             _clientes = clientes;
         }
 
-        [HttpGet("obtenerLogs")]
-        public async Task<IActionResult> obtenerLogs()
+        [HttpGet("obtenerLogs/{nombre}")]
+        public async Task<IActionResult> obtenerLogs([FromRoute]string nombre)
         {
-            var state = await _clientes.obtenerLogs();
+            var state = await _clientes.obtenerLogs(nombre);
             if (state.Length > 0)
                 return Ok(state);
             else

@@ -1,0 +1,19 @@
+12/8/2022 15:50:51|El Log anda :)
+12/8/2022 15:52:55|El Log anda :)
+12/8/2022 15:53:32|El Log anda :)
+12/8/2022 18:01:21|El Log anda :)
+12/8/2022 18:03:06|El Log anda :)
+12/8/2022 18:07:33|El Log anda :)
+12/8/2022 18:29:13|El Log anda :(
+12/8/2022 20:58:30|An error occurred while updating the entries. See the inner exception for details.
+12/8/2022 20:58:30|An error occurred while updating the entries. See the inner exception for details.
+12/8/2022 20:59:14|An error occurred while updating the entries. See the inner exception for details.
+12/8/2022 20:59:14|An error occurred while updating the entries. See the inner exception for details.
+12/8/2022 20:59:21|An error occurred while updating the entries. See the inner exception for details.
+12/8/2022 20:59:21|An error occurred while updating the entries. See the inner exception for details.
+12/8/2022 20:59:30|An error occurred while updating the entries. See the inner exception for details.
+12/8/2022 20:59:30|An error occurred while updating the entries. See the inner exception for details.
+12/8/2022 23:41:29|Se ingresó un Id invalido como criterio de busqueda.
+12/8/2022 23:48:26|Se ingresó un Id invalido como criterio de busqueda.
+12/8/2022 23:49:29|Se ingresó un Id invalido como criterio de busqueda.
+12/8/2022 23:49:59|Se ingresó un nombre invalido como criterio de busqueda.

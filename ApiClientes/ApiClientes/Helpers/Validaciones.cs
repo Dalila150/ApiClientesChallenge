@@ -26,6 +26,22 @@ namespace ApiClientes.Helpers
                 return false;
         }
 
+        public static bool validarId(int campo) //No puede ser menor a 0 ni poseer letras
+        {
+            bool state = true;
+
+            if(campo <= 0)
+            {
+                state = false;
+            }
+            if (!isNumeric(campo.ToString()))
+            {
+                state = false;
+            }
+
+
+            return state;
+        }
 
         public static bool validarNombre(string campo) //Solo letras
         {
@@ -127,17 +143,7 @@ namespace ApiClientes.Helpers
             }
         }
 
-        public static string  formatearFecha(DateTime campo)
-        {
-
-            var json = "\"" + campo.ToUniversalTime().ToString("s") +
-                   "Z" + "\"";
-
-            bool state = true;
-
-            return json;
-        }
-
+       
 
 
 

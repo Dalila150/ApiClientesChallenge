@@ -6,7 +6,7 @@ namespace ApiClientes.Helpers
     public class Log
     {
         static string _path = "";
-        private string _salto = "\n";
+        //private string _salto = "\n";
 
 
         //El constructor no existe, para poder hacer Log estatico.

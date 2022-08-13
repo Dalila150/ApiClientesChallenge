@@ -1,0 +1,187 @@
+{
+	"info": {
+		"_postman_id": "c01eac76-3944-4169-b61c-3e5e380cd64f",
+		"name": "Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22746477"
+	},
+	"item": [
+		{
+			"name": "getAllClients",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:6933/api/Clientes/obtenerTodosLosClientes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6933",
+					"path": [
+						"api",
+						"Clientes",
+						"obtenerTodosLosClientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getClientByID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:6933/api/Clientes/obtenerClienteXId/0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6933",
+					"path": [
+						"api",
+						"Clientes",
+						"obtenerClienteXId",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getClientByName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:6933/api/Clientes/obtenerClientesXNombre/z",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6933",
+					"path": [
+						"api",
+						"Clientes",
+						"obtenerClientesXNombre",
+						"z"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "insertNewClient",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ID\" : 0,\r\n    \"Nombre\" : \"Ejemplo\",\r\n    \"Apellido\" : \"Ejemplo\",\r\n    \"FechaNac\" : \"2011-11-11T11:11:11.111Z\",\r\n    \"Cuit\" : \"111 11111\",\r\n    \"Domicilio\" : \"Ejemplo\",\r\n    \"Telefono\" : \"1111111111\",\r\n    \"Email\" : \"ejemplo@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6933/api/Clientes/insertarNuevoCliente",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6933",
+					"path": [
+						"api",
+						"Clientes",
+						"insertarNuevoCliente"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "modifyClient",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ID\" : 3,\r\n    \"Nombre\" : \"Ejemplo\",\r\n    \"Apellido\" : \"Ejemplo\",\r\n    \"FechaNac\" : \"2011-11-11T11:11:11.111Z\",\r\n    \"Cuit\" : \"111 11111\",\r\n    \"Domicilio\" : \"Ejemplo\",\r\n    \"Telefono\" : \"1111111111\",\r\n    \"Email\" : \"ejemplo@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6933/api/Clientes/modificarCliente",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6933",
+					"path": [
+						"api",
+						"Clientes",
+						"modificarCliente"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getLogs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:6933/api/Logs/obtenerLogs/11_8_2022",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6933",
+					"path": [
+						"api",
+						"Logs",
+						"obtenerLogs",
+						"11_8_2022"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "modifyClientPatch",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ID\" : 3,\r\n    \"Nombre\" : \"Ejemplo\",\r\n    \"Apellido\" : \"Ejemplo\",\r\n    \"FechaNac\" : \"2011-11-11T11:11:11.111Z\",\r\n    \"Cuit\" : \"111 11111\",\r\n    \"Domicilio\" : \"Ejemplo\",\r\n    \"Telefono\" : \"1111111111\",\r\n    \"Email\" : \"ejemplo@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:6933/api/Clientes/modificarClientePatch",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "6933",
+					"path": [
+						"api",
+						"Clientes",
+						"modificarClientePatch"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

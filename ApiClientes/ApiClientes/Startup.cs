@@ -35,7 +35,27 @@ namespace ApiClientes
             services.AddScoped<IClientes, ClientesRepo>();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiClientes", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo 
+                {
+                    Title = "ApiChallenge", Version = "v1" ,
+                    Description =
+                    "A tener en cuenta: \n" +
+                    "Para el parametro de getLogs, el formato de la fecha ingresada debe ser del siguiente formato:  " +
+                    "12_8_2022 " +
+                    "//================================================================================================================================================================// " +
+                    "Para el parametro de insertarCliente, modificarCliente y modificarClientePatch, el formato de la fecha debe ser tipo ISO: " +
+                    "2011-11-11T11:11:11.111Z  " +
+                    "//================================================================================================================================================================// " +
+                    "A continuación se encuentra el link que dirige al repositorio de GitHub",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Repositorio GitHub ApiChallenge",
+                        Url = new Uri("https://github.com/Dalila150/ApiClientesChallenge"),
+                    },
+
+                }
+                );
+                
             });
         }
 
@@ -48,7 +68,7 @@ namespace ApiClientes
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiClientes v1"));
             }
-
+            
             app.UseRouting();
 
             app.UseAuthorization();

@@ -24,12 +24,15 @@ namespace ApiClientes.Controllers
         [HttpGet("obtenerTodosLosClientes")]
         public async Task<IActionResult> obtenerTodosLosClientes()
         {
-            var lista = await _clientes.obtenerTodosLosClientes();
-            if (lista.Count() > 0)
-                return Ok(lista);
-            else
-                return StatusCode(StatusCodes.Status204NoContent);
+           
 
+                var lista = await _clientes.obtenerTodosLosClientes();
+                if (lista.Count() > 0)
+                    return Ok(lista);
+                else
+                     Log.agregarLog("No hay contenido.", @"D:\Repo\ApiClientesChallenge\ApiClientes\");
+                    return BadRequest(StatusCodes.Status204NoContent);
+              
         }
 
         [HttpGet("obtenerClienteXId/{Id}")]
@@ -39,18 +42,21 @@ namespace ApiClientes.Controllers
             if (lista != null)
                 return Ok(lista);
             else
-                return StatusCode(StatusCodes.Status204NoContent);
+            return Ok("No existen resultados para la consulta con dicho Id.");
+            //return StatusCode(StatusCodes.Status204NoContent);
 
         }
 
         [HttpGet("obtenerClientesXNombre/{nombre}")]
         public async Task<IActionResult> obtenerClientesXNombre([FromRoute]string nombre)
         {
+
             var lista = await _clientes.obtenerClientesXNombre(nombre);
             if (lista.Count() > 0)
                 return Ok(lista);
             else
-                return StatusCode(StatusCodes.Status204NoContent);
+                return Ok("No existen resultados para la consulta con dicho nombre.");
+            //return StatusCode(StatusCodes.Status204NoContent);
 
         }
 
@@ -70,18 +76,29 @@ namespace ApiClientes.Controllers
                     var state = await _clientes.insertarNuevoCliente(cliente);
                     switch (state)
                     {   
-                        case -1:
+                        case -2:
                             return BadRequest("Cuit invalido");
                             break;
-                        default:
+                        case -3:
+                            return BadRequest("Nombre invalido");
                             break;
+                        case -4:
+                            return BadRequest("Apellido invalido");
+                            break;
+                        case -5:
+                            return BadRequest("Email invalido");
+                            break;
+                        case -6:
+                            return BadRequest("Telefono invalido");
+                            break;
+                        default:
+                                break;
                     }
-                    return Ok(state); //
+                    return Ok("Se insertó un nuevo cliente con éxito!."); 
                 }
-                catch (Exception)
+                catch (Exception error)
                 {
-                    return StatusCode(StatusCodes.Status500InternalServerError);
-                    //Insertar log?
+                Log.agregarLog(error.Message, @"D:\Repo\ApiClientesChallenge\ApiClientes\");
                     throw;
                 }
                
@@ -94,30 +111,100 @@ namespace ApiClientes.Controllers
 
             if (!ModelState.IsValid)
             {
+                Log.agregarLog("El modelo insertado no es valido", @"D:\Repo\ApiClientesChallenge\ApiClientes\");
                 return BadRequest(ModelState);
-                //Insertar log?
             }
 
             try
             {
                 var state = await _clientes.modificarCliente(cliente);
-                return Ok(state);
+                switch (state)
+                {
+                    case -1:
+                        return BadRequest("El cliente a modificar no existe. Ingrese un Id existente.");
+                        break;
+                    case -2:
+                        return BadRequest("Cuit invalido");
+                        break;
+                    case -3:
+                        return BadRequest("Nombre invalido");
+                        break;
+                    case -4:
+                        return BadRequest("Apellido invalido");
+                        break;
+                    case -5:
+                        return BadRequest("Email invalido");
+                        break;
+                    case -6:
+                        return BadRequest("Telefono invalido");
+                        break;
+                    default:
+                        break;
+                }
+                return Ok("Se modifico un cliente con éxito!."); //el mensaje dispara aca
 
             }
-            catch (Exception)
+            catch (Exception error)
             {
-                return StatusCode(StatusCodes.Status204NoContent);
-                //log
+                Log.agregarLog(error.Message, @"D:\Repo\ApiClientesChallenge\ApiClientes\");
                 throw;
+                
             }
 
         }
-        
 
-        
 
-        //en el pasado el put dejaba el sistema vulnerable.
-        //hacer post y patch (standar, pero no se usa.)
+        [HttpPatch("modificarClientePatch")]
+        public async Task<IActionResult> modificarClientePatch([FromBody] Cliente cliente)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                Log.agregarLog("El modelo insertado no es valido", @"D:\Repo\ApiClientesChallenge\ApiClientes\");
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var state = await _clientes.modificarCliente(cliente);
+                switch (state)
+                {
+
+                    case -1:
+                        return BadRequest("El cliente a modificar no existe. Ingrese un Id existente.");
+                        break;
+                    case -2:
+                        return BadRequest("Cuit invalido");
+                        break;
+                    case -3:
+                        return BadRequest("Nombre invalido");
+                        break;
+                    case -4:
+                        return BadRequest("Apellido invalido");
+                        break;
+                    case -5:
+                        return BadRequest("Email invalido");
+                        break;
+                    case -6:
+                        return BadRequest("Telefono invalido");
+                        break;
+                    case -7:
+                        return BadRequest("Id invalido");
+                        break;
+                    default:
+                        break;
+                }
+                return Ok("Se modifico un cliente con éxito!."); 
+
+            }
+            catch (Exception error)
+            {
+                Log.agregarLog(error.Message, @"D:\Repo\ApiClientesChallenge\ApiClientes\");
+                throw;
+
+            }
+
+        }
 
     }
 }
